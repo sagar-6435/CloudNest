@@ -1,6 +1,9 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { createUserFolder } = require('../services/googleDriveService');
+const Otp = require('../models/Otp');
+const sendEmail = require('../utils/sendEmail');
+const crypto = require('crypto');
 
 // Generate JWT Stack
 const generateToken = (id) => {
@@ -136,9 +139,81 @@ const updateProfile = async (req, res) => {
     }
 };
 
+// @desc    Request OTP for email verification
+// @route   POST /api/auth/request-otp
+// @access  Public
+const requestOtp = async (req, res) => {
+    try {
+        const { email, context } = req.body;
+        if (!email || !context) return res.status(400).json({ message: 'Email and context required' });
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit OTP
+
+        // Clear existing OTP for this email and context
+        await Otp.deleteMany({ email, context });
+        await Otp.create({ email, otp, context });
+
+        // Send Email
+        try {
+            await sendEmail({
+                email,
+                subject: 'CloudNest Verification Code',
+                message: `Your CloudNest OTP code is ${otp}. It will expire in 5 minutes.`
+            });
+            res.json({ message: 'OTP sent successfully' });
+        } catch (mailError) {
+            console.error(mailError);
+            res.status(500).json({ message: 'Error sending email. Check SMTP credentials.' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Forgot Password (Send OTP)
+// @route   POST /api/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        req.body.context = 'forgot_password';
+        await requestOtp(req, res); // Reuse OTP generator
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Reset Password via OTP
+// @route   POST /api/auth/reset-password
+// @access  Public
+const resetPassword = async (req, res) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+        if (!email || !otp || !newPassword) return res.status(400).json({ message: 'Missing fields' });
+
+        const validOtp = await Otp.findOne({ email, otp, context: 'forgot_password' });
+        if (!validOtp) return res.status(400).json({ message: 'Invalid or expired OTP' });
+
+        const user = await User.findOne({ email });
+        user.password = newPassword; // Pre-save hooks will hash this automatically
+        await user.save();
+        await Otp.deleteMany({ email, context: 'forgot_password' });
+
+        res.json({ message: 'Password has been reset successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
     getProfile,
-    updateProfile
+    updateProfile,
+    requestOtp,
+    forgotPassword,
+    resetPassword
 };
