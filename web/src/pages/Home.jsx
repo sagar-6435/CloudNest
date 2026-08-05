@@ -44,7 +44,7 @@ const Home = () => {
                     <Link to="/signin" className="hidden md:block text-sm font-medium text-blue-600 hover:text-blue-700">
                         Sign In
                     </Link>
-                    <Link to="/signin" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors">
+                    <Link to="/signup" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors">
                         Get Started
                     </Link>
                     <button className="md:hidden text-gray-500 hover:text-gray-900">
