@@ -44,7 +44,7 @@ const Home = () => {
                     <Link to="/signin" className="hidden md:block text-sm font-medium text-blue-600 hover:text-blue-700">
                         Sign In
                     </Link>
-                    <Link to="/signup" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors">
+                    <Link to="/signu" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors">
                         Get Started
                     </Link>
                     <button className="md:hidden text-gray-500 hover:text-gray-900">
@@ -258,7 +258,7 @@ const Home = () => {
                         <div className="border border-gray-200 rounded-3xl p-8 bg-gray-50 flex flex-col hover:border-gray-300 transition-colors">
                             <h3 className="text-sm font-bold text-gray-500 mb-4 uppercase">Free</h3>
                             <div className="flex items-baseline gap-1 mb-8">
-                                <span className="text-4xl font-extrabold text-gray-900">$0</span>
+                                <span className="text-4xl font-extrabold text-gray-900">₹0</span>
                                 <span className="text-gray-500 text-sm font-medium">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-8 flex-1">
@@ -284,12 +284,12 @@ const Home = () => {
                             </div>
                             <h3 className="text-sm font-bold text-blue-600 mb-4 uppercase">Premium</h3>
                             <div className="flex items-baseline gap-1 mb-8">
-                                <span className="text-4xl font-extrabold text-gray-900">$9</span>
+                                <span className="text-4xl font-extrabold text-gray-900">₹19</span>
                                 <span className="text-gray-500 text-sm font-medium">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-8 flex-1">
                                 <li className="flex items-center gap-3 text-sm text-gray-900 font-medium">
-                                    <CheckCircle2 size={18} className="text-blue-600" /> 2 TB Storage
+                                    <CheckCircle2 size={18} className="text-blue-600" /> 50 GB Storage
                                 </li>
                                 <li className="flex items-center gap-3 text-sm text-gray-900 font-medium">
                                     <CheckCircle2 size={18} className="text-blue-600" /> Unlimited Devices
@@ -307,12 +307,12 @@ const Home = () => {
                         <div className="border border-gray-200 rounded-3xl p-8 bg-gray-50 flex flex-col hover:border-gray-300 transition-colors">
                             <h3 className="text-sm font-bold text-gray-500 mb-4 uppercase">Pro</h3>
                             <div className="flex items-baseline gap-1 mb-8">
-                                <span className="text-4xl font-extrabold text-gray-900">$19</span>
+                                <span className="text-4xl font-extrabold text-gray-900">₹29</span>
                                 <span className="text-gray-500 text-sm font-medium">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-8 flex-1">
                                 <li className="flex items-center gap-3 text-sm text-gray-600 font-medium">
-                                    <CheckCircle2 size={18} className="text-blue-500" /> 5 TB Storage
+                                    <CheckCircle2 size={18} className="text-blue-500" /> 80 GB Storage
                                 </li>
                                 <li className="flex items-center gap-3 text-sm text-gray-600 font-medium">
                                     <CheckCircle2 size={18} className="text-blue-500" /> Priority Support
@@ -330,12 +330,12 @@ const Home = () => {
                         <div className="border border-gray-200 rounded-3xl p-8 bg-gray-50 flex flex-col hover:border-gray-300 transition-colors">
                             <h3 className="text-sm font-bold text-gray-500 mb-4 uppercase">Family</h3>
                             <div className="flex items-baseline gap-1 mb-8">
-                                <span className="text-4xl font-extrabold text-gray-900">$29</span>
+                                <span className="text-4xl font-extrabold text-gray-900">₹39</span>
                                 <span className="text-gray-500 text-sm font-medium">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-8 flex-1">
                                 <li className="flex items-center gap-3 text-sm text-gray-600 font-medium">
-                                    <CheckCircle2 size={18} className="text-blue-500" /> 10 TB Storage
+                                    <CheckCircle2 size={18} className="text-blue-500" /> 150 GB Storage
                                 </li>
                                 <li className="flex items-center gap-3 text-sm text-gray-600 font-medium">
                                     <CheckCircle2 size={18} className="text-blue-500" /> Up to 6 Members
@@ -433,11 +433,11 @@ const Home = () => {
                             No credit card required. Experience premium cloud storage with all features unlocked for 30 days.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link to="/signin" className="bg-white text-blue-600 hover:bg-gray-50 px-8 py-3.5 rounded-xl font-bold transition-colors">
+                            <Link to="/signup" className="bg-white text-blue-600 hover:bg-gray-50 px-8 py-3.5 rounded-xl font-bold transition-colors">
                                 Create Account
                             </Link>
                             <button className="bg-blue-700/50 hover:bg-blue-700 text-white border border-blue-500/50 px-8 py-3.5 rounded-xl font-bold transition-colors">
-                                Contact Sales
+                                <a href="mailto:[kandasagar2006@gmail.com]">Contact Sales</a>
                             </button>
                         </div>
                     </div>
@@ -453,11 +453,11 @@ const Home = () => {
                     </div>
 
                     <nav className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
-                        <a href="#" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Product</a>
-                        <a href="#" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Features</a>
-                        <a href="#" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Security</a>
-                        <a href="#" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Privacy Policy</a>
-                        <a href="#" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Terms of Service</a>
+                        <Link to="/product" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Product</Link>
+                        <Link to="/features" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Features</Link>
+                        <Link to="/security" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Security</Link>
+                        <Link to="/privacy" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Privacy Policy</Link>
+                        <Link to="/terms" className="text-xs font-semibold text-gray-500 hover:text-gray-900 uppercase">Terms of Service</Link>
                     </nav>
 
                     <div className="flex items-center gap-4 text-gray-400">

@@ -9,6 +9,11 @@ import SignUp from './pages/SignUp';
 import Upload from './pages/upload';
 import MyData from './pages/mydata';
 import Trash from './pages/Trash';
+import Product from './pages/Product';
+import Features from './pages/Features';
+import Security from './pages/Security';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 function App() {
   return (
@@ -17,6 +22,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+
+        {/* Info Pages */}
+        <Route path="/product" element={<Product />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/security" element={<Security />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
 
         {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={<DashboardLayout />}>

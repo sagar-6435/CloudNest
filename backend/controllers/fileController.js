@@ -47,7 +47,7 @@ const uploadFile = async (req, res) => {
 const getFiles = async (req, res) => {
     try {
         const isTrashedReq = req.query.trashed === 'true';
-        const files = await File.find({ user: req.user.id, ...(isTrashedReq ? { isTrashed: true } : { isTrashed: false }) }).sort({ createdAt: -1 });
+        const files = await File.find({ user: req.user.id, ...(isTrashedReq ? { isTrashed: true } : { isTrashed: false }) }).sort({ updatedAt: -1 });
         res.status(200).json(files);
     } catch (error) {
         res.status(500).json({ message: error.message });

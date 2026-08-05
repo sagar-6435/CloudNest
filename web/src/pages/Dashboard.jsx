@@ -37,7 +37,7 @@ const Dashboard = () => {
                     id: file._id,
                     name: file.name,
                     size: file.size,
-                    date: new Date(file.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
+                    date: new Date(file.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
                     type: file.mimeType,
                 }));
 
