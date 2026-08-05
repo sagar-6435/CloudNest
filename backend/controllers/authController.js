@@ -17,10 +17,16 @@ const generateToken = (id) => {
 // @access  Public
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, mobileNumber } = req.body;
+        const { name, email, password, mobileNumber, otp } = req.body;
 
-        if (!name || !email || !password || !mobileNumber) {
-            return res.status(400).json({ message: 'Please add all fields' });
+        if (!name || !email || !password || !mobileNumber || !otp) {
+            return res.status(400).json({ message: 'Please add all fields, including OTP' });
+        }
+
+        // Verify OTP
+        const validOtp = await Otp.findOne({ email, otp, context: 'signup' });
+        if (!validOtp) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
         }
 
         // Check if user exists
@@ -50,6 +56,9 @@ const registerUser = async (req, res) => {
             } catch (err) {
                 console.error("Warning: Failed to create G-Drive folder", err);
             }
+
+            // Cleanup used OTP
+            await Otp.deleteMany({ email, context: 'signup' });
 
             res.status(201).json({
                 _id: user.id,
@@ -155,10 +164,47 @@ const requestOtp = async (req, res) => {
 
         // Send Email
         try {
+            const isSignup = context === 'signup';
+            const title = isSignup ? 'Welcome to CloudNest' : 'Reset Your Password';
+            const description = isSignup
+                ? 'Thank you for choosing CloudNest as your secure cloud storage provider. To complete your identity verification, please use the security code below:'
+                : 'We received a request to reset the password for your CloudNest account. To securely complete this process, please use the security code below:';
+
+            const htmlTemplate = `
+            <div style="font-family: 'Inter', Helvetica, Arial, sans-serif; max-width: 500px; margin: 40px auto; background-color: #FFFFFF; padding: 40px; border-radius: 16px; border: 1px solid #DADCE0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <img src="https://cloud-nest1.vercel.app/logo.png" alt="CloudNest Logo" style="width: 70px; height: 70px;" />
+                    <h1 style="color: #202124; margin-top: 20px; font-size: 24px; font-weight: 700;">${title}</h1>
+                </div>
+                
+                <p style="color: #5F6368; font-size: 16px; line-height: 1.6; margin-bottom: 24px;">
+                    Hello,
+                    <br><br>
+                    ${description}
+                </p>
+
+                <div style="background-color: #F1F3F4; border: 1px solid #DADCE0; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+                    <span style="font-size: 40px; font-weight: 800; letter-spacing: 12px; color: #1A73E8; margin-left: 12px;">${otp}</span>
+                </div>
+
+                <p style="color: #5F6368; font-size: 14px; line-height: 1.5; text-align: center;">
+                    This code is strictly tied to your email and is valid for <strong>5 minutes</strong>. If you did not request this, you can safely ignore this email.
+                </p>
+
+                <hr style="border: none; border-top: 1px solid #DADCE0; margin: 32px 0;" />
+
+                <p style="color: #5F6368; font-size: 12px; text-align: center; margin: 0; line-height: 1.6;">
+                    &copy; ${new Date().getFullYear()} CloudNest. All rights reserved.<br>
+                    Your safe space in the cloud.
+                </p>
+            </div>
+            `;
+
             await sendEmail({
                 email,
                 subject: 'CloudNest Verification Code',
-                message: `Your CloudNest OTP code is ${otp}. It will expire in 5 minutes.`
+                message: `Your CloudNest OTP code is ${otp}. It will expire in 5 minutes.`,
+                html: htmlTemplate
             });
             res.json({ message: 'OTP sent successfully' });
         } catch (mailError) {
